@@ -1,11 +1,11 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { getCategoryByHandle, listCategories } from "@lib/data/categories"
-import { listRegions } from "@lib/data/regions"
-import { HttpTypes, StoreRegion } from "@medusajs/types"
+import { getCategoryByHandle } from "@lib/data/categories"
 import CategoryTemplate from "@modules/categories/templates"
 import { CategorySortOption } from "@modules/categories/components/category-toolbar"
+
+export const dynamic = "force-dynamic"
 
 type Props = {
   params: Promise<{ category: string[]; countryCode: string }>
@@ -14,33 +14,6 @@ type Props = {
     page?: string
     limit?: string
   }>
-}
-
-export async function generateStaticParams() {
-  const product_categories = await listCategories()
-
-  if (!product_categories) {
-    return []
-  }
-
-  const countryCodes = await listRegions().then((regions: StoreRegion[]) =>
-    regions?.map((r) => r.countries?.map((c) => c.iso_2)).flat()
-  )
-
-  const categoryHandles = product_categories.map(
-    (category: HttpTypes.StoreProductCategory) => category.handle
-  )
-
-  const staticParams = countryCodes
-    ?.map((countryCode: string | undefined) =>
-      categoryHandles.map((handle: string) => ({
-        countryCode,
-        category: [handle],
-      }))
-    )
-    .flat()
-
-  return staticParams
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
