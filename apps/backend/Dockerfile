@@ -22,7 +22,7 @@ FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=builder /app/apps/backend/.medusa/server ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY apps/backend/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 EXPOSE 9000

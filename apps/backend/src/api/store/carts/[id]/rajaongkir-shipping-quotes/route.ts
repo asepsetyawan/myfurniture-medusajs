@@ -50,14 +50,14 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
   let destination: string
   try {
     destination = getDestinationIdFromContext(
-      cart as Parameters<typeof getDestinationIdFromContext>[0]
+      cart as unknown as Parameters<typeof getDestinationIdFromContext>[0]
     )
   } catch {
     return res.json({ quotes: [] })
   }
 
   const weight = getCartWeightGrams(
-    cart as Parameters<typeof getCartWeightGrams>[0]
+    cart as unknown as Parameters<typeof getCartWeightGrams>[0]
   )
 
   const client = new RajaOngkirClient(apiKey)

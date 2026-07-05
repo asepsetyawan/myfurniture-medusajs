@@ -1,6 +1,6 @@
 import {
   markOrderFulfillmentAsDeliveredWorkflow,
-} from "@medusajs/core-flows"
+} from "@medusajs/medusa/core-flows"
 import type { HttpTypes } from "@medusajs/framework/types"
 import {
   AuthenticatedMedusaRequest,

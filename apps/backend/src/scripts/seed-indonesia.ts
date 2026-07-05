@@ -24,6 +24,26 @@ import {
 const USD_TO_IDR = 16000
 const EUR_TO_IDR = 17000
 
+type RegionRef = {
+  id: string
+  name?: string | null
+  currency_code?: string | null
+  countries?: Array<{ iso_2?: string | null } | null> | null
+}
+
+type StockLocationRef = {
+  id: string
+  name?: string | null
+}
+
+type VariantWithPrices = {
+  id: string
+  prices?: Array<{
+    amount?: number | string
+    currency_code?: string | null
+  } | null> | null
+}
+
 export default async function seedIndonesia({
   container,
 }: {
@@ -78,7 +98,7 @@ export default async function seedIndonesia({
     fields: ["id", "name", "currency_code", "countries.iso_2"],
   })
 
-  let indonesiaRegion = existingRegions.find(
+  let indonesiaRegion: RegionRef | undefined = existingRegions.find(
     (r) =>
       r.currency_code === "idr" ||
       r.countries?.some((c) => c?.iso_2?.toLowerCase() === "id")
@@ -157,7 +177,7 @@ export default async function seedIndonesia({
     fields: ["id", "name"],
   })
 
-  let indonesiaStockLocation = stockLocations.find((l) =>
+  let indonesiaStockLocation: StockLocationRef | undefined = stockLocations.find((l) =>
     l.name?.toLowerCase().includes("indonesia")
   )
 
@@ -196,6 +216,9 @@ export default async function seedIndonesia({
       },
     })
     indonesiaStockLocation = result[0]
+    if (!indonesiaStockLocation) {
+      throw new Error("Failed to create Indonesia stock location.")
+    }
 
     await link.create({
       [Modules.STOCK_LOCATION]: {
@@ -282,7 +305,8 @@ export default async function seedIndonesia({
     fields: ["id", "prices.*"],
   })
 
-  const variantsNeedingIdr = variants.filter(
+  const variantsWithPrices = variants as VariantWithPrices[]
+  const variantsNeedingIdr = variantsWithPrices.filter(
     (v) => !v.prices?.some((p) => p?.currency_code?.toLowerCase() === "idr")
   )
 

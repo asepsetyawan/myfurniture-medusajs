@@ -1,4 +1,4 @@
-import { createOrderShipmentWorkflow } from "@medusajs/core-flows"
+import { createOrderShipmentWorkflow } from "@medusajs/medusa/core-flows"
 import type { HttpTypes } from "@medusajs/framework/types"
 import {
   AuthenticatedMedusaRequest,

@@ -30,10 +30,7 @@ export function getXenditRuntimeConfig(): XenditRuntimeConfig {
 }
 
 export async function ensureXenditConfigLoaded(): Promise<XenditRuntimeConfig> {
-  const shouldLoadFromDb =
-    dbLoader && (!cache || (!cache.secretKey && !cache.webhookToken))
-
-  if (shouldLoadFromDb) {
+  if (dbLoader && (!cache || (!cache.secretKey && !cache.webhookToken))) {
     try {
       await dbLoader()
     } catch {
