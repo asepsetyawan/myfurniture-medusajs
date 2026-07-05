@@ -38,6 +38,10 @@ async function revalidateCartCaches() {
 const DEFAULT_CART_FIELDS =
   "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name, *shipping_address, +shipping_address.metadata, *billing_address, +billing_address.metadata, *shipping_methods, email"
 
+export async function getStoredCartId() {
+  return getCartId()
+}
+
 export async function retrieveCart(cartId?: string, fields?: string) {
   const id = cartId || (await getCartId())
   fields ??= DEFAULT_CART_FIELDS

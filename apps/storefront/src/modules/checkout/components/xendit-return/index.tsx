@@ -1,7 +1,6 @@
 "use client"
 
-import { placeOrder } from "@lib/data/cart"
-import { getCartId } from "@lib/data/cookies"
+import { getStoredCartId, placeOrder } from "@lib/data/cart"
 import { syncXenditPaymentForCart } from "@lib/data/xendit"
 import { Button, Heading, Text } from "@modules/common/components/ui"
 import { useParams, useRouter } from "next/navigation"
@@ -14,7 +13,7 @@ export default function XenditReturn() {
 
   useEffect(() => {
     const complete = async () => {
-      const cartId = await getCartId()
+      const cartId = await getStoredCartId()
 
       if (cartId) {
         let lastMessage: string | undefined
