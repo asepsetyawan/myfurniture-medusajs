@@ -38,6 +38,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 9000
+      MEDUSA_DISABLE_TELEMETRY: "true"
       MEDUSA_WORKER_MODE: server
       DISABLE_MEDUSA_ADMIN: "false"
       DATABASE_URL: postgres://${POSTGRES_USER:-medusa}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-medusa}
@@ -73,6 +74,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 9000
+      MEDUSA_DISABLE_TELEMETRY: "true"
       MEDUSA_WORKER_MODE: worker
       DISABLE_MEDUSA_ADMIN: "true"
       DATABASE_URL: postgres://${POSTGRES_USER:-medusa}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-medusa}
