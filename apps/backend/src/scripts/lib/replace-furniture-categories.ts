@@ -27,6 +27,7 @@ export async function replaceFurnitureCategories(
   const storefrontBaseUrl =
     options.storefrontBaseUrl ||
     process.env.STOREFRONT_URL ||
+    process.env.STORE_FRONT_URL ||
     process.env.NEXT_PUBLIC_BASE_URL ||
     "http://localhost:8000"
 
