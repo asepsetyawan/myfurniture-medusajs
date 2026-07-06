@@ -5,6 +5,13 @@ loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 module.exports = defineConfig({
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
+    // Medusa 2.15.x forces SSL for non-localhost hosts (e.g. Docker service name
+    // "postgres"), which hangs db:migrate silently against stock Postgres images.
+    databaseDriverOptions: {
+      connection: {
+        ssl: false,
+      },
+    },
     redisUrl: process.env.REDIS_URL,
     workerMode: process.env.MEDUSA_WORKER_MODE as
       | "shared"
