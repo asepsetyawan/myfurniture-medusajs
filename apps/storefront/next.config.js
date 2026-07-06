@@ -15,6 +15,7 @@ const S3_PATHNAME = process.env.MEDUSA_CLOUD_S3_PATHNAME
 const nextConfig = {
   output: "standalone",
   outputFileTracingRoot: path.join(__dirname, "../../"),
+  staticPageGenerationTimeout: 60,
   reactStrictMode: true,
   logging: {
     fetches: {

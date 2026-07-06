@@ -31,9 +31,18 @@ sdk.client.fetch = async <T>(
     ...localeHeader,
     ...headers,
   }
-  init = {
-    ...init,
-    headers: newHeaders,
+
+  const timeoutMs = Number(process.env.MEDUSA_FETCH_TIMEOUT_MS || 15000)
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
+
+  try {
+    return await originalFetch(input, {
+      ...init,
+      headers: newHeaders,
+      signal: controller.signal,
+    })
+  } finally {
+    clearTimeout(timeoutId)
   }
-  return originalFetch(input, init)
 }
